@@ -34,14 +34,29 @@ namespace WebApplication1.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Edit()
+        public IActionResult Edit(int? id)
         {
-            return View();
+            return View(_context.Users.Find(id));
+        }
+
+        [HttpPost]
+        public IActionResult Edit(User user)
+        {
+            _context.Users.Update(user);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         public IActionResult Details(int? id)
         {
             return View(_context.Users.Find(id));
+        }
+        public IActionResult Delete(int? id)
+        {
+            var user = _context.Users.Find(id);
+            _context.Users.Remove(user);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
